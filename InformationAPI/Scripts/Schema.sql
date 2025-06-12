@@ -1,0 +1,6 @@
+﻿CREATE TABLE Posts (
+    Id INT PRIMARY KEY,
+    UserId INT NOT NULL,
+    Title NVARCHAR(255),
+    Body NVARCHAR(MAX)
+);
