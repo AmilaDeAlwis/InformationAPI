@@ -1,9 +1,18 @@
 ﻿let currentPage = 1, pageSize = 10, totalCount = 0;
 
 function loadPosts(page) {
-    fetch(`/api/posts?page=${page}&pageSize=${pageSize}`)
-        .then(res => res.json())
+    fetch(`/api/home?page=${page}&pageSize=${pageSize}`)
+        .then(res => {
+            if (!res.ok) {
+                throw new Error(`HTTP error! Status: ${res.status}`);
+            }
+            return res.json();
+        })
         .then(response => {
+            if (!response.data || !Array.isArray(response.data)) {
+                throw new Error("Invalid response format");
+            }
+
             const postsDiv = document.getElementById("posts");
             postsDiv.innerHTML = "";
 
@@ -36,6 +45,11 @@ function loadPosts(page) {
             `;
 
             currentPage = page;
+        })
+        .catch(error => {
+            console.error("Failed to load posts:", error);
+            const postsDiv = document.getElementById("posts");
+            postsDiv.innerHTML = `<p style="color:red;">Error loading posts. Please try again later.</p>`;
         });
 }
 
