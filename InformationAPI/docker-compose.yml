@@ -1,0 +1,11 @@
+﻿services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: InformationAPI-sql
+    environment:
+      SA_PASSWORD: ${SQL_SA_PASSWORD}
+      ACCEPT_EULA: "Y"
+    ports:
+      - "14300:1433"
+    volumes:
+      - ./db:/docker-entrypoint-initdb.d
